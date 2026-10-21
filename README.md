@@ -409,15 +409,17 @@ regenerate snapshots with `TRYBUILD=overwrite cargo test --test ui`.
 
 ## Releasing
 
-Publishing runs in `.github/workflows/release.yml`. Pushing a `v<version>` tag
-checks formatting, clippy and the unit tests, verifies that the tag matches the
-version in `Cargo.toml`, builds the package, and then publishes it to crates.io.
+Publishing runs in `.github/workflows/ci.yml`. A `pull_request` or manual run
+only performs the checks; pushing a `v<version>` tag runs the same checks plus
+the release jobs, which verify that the tag matches the version in
+`Cargo.toml`, build the package, and publish it to crates.io.
 
 1. Bump `version` in `Cargo.toml` and commit the change.
 2. Tag the commit and push the tag:
 
    ```sh
    git tag v0.2.0
+   git push origin main
    git push origin v0.2.0
    ```
 
@@ -427,8 +429,9 @@ variables → Actions). The publish job runs in the `crates-io` environment, so
 required reviewers or a deployment branch rule can be added there.
 
 If the tag and the `Cargo.toml` version differ, or any check fails, the crate is
-not published. `ci.yml` runs the same checks on pushes to `main` and on pull
-requests, plus an MSRV check against Rust 1.99.1.
+not published. The workflow does not run on `main` branch pushes: a release tag
+push is a single run that already contains the full check suite and the MSRV
+check against Rust 1.99.1.
 
 ## Extending the crate
 
