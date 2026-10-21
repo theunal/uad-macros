@@ -1,0 +1,5 @@
+error: only one bare #[get] is allowed per controller: `list` already uses it
+  --> tests/ui/duplicate_bare_route.rs:11:5
+   |
+11 |     #[get]
+   |     ^^^^^^

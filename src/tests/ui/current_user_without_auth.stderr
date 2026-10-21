@@ -1,0 +1,5 @@
+error: handler extracts CurrentUser but has no #[middleware(auth)]: the extension is only inserted by auth_middleware, so every request would fail with a missing-extension error. Add #[middleware(auth)] to the handler or its #[controller].
+  --> tests/ui/current_user_without_auth.rs:14:14
+   |
+14 |     async fn me(Extension(_user): Extension<CurrentUser>) {}
+   |              ^^

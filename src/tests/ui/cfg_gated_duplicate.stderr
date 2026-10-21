@@ -1,0 +1,11 @@
+error: duplicate route GET /users/{user_id}: already defined by `show`
+  --> tests/ui/cfg_gated_duplicate.rs:13:5
+   |
+13 |     #[get("/{user_id}")]
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: only one bare #[get] is allowed per controller: `list` already uses it
+  --> tests/ui/cfg_gated_duplicate.rs:27:5
+   |
+27 |     #[get]
+   |     ^^^^^^

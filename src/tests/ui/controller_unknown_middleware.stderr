@@ -1,0 +1,5 @@
+error: Unknown middleware: 'rate_limit'. Supported: auth
+ --> tests/ui/controller_unknown_middleware.rs:5:26
+  |
+5 | #[uad_macros::middleware(rate_limit)]
+  |                          ^^^^^^^^^^

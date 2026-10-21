@@ -1,0 +1,11 @@
+error: duplicate route GET /users: already defined by `list`
+  --> tests/ui/duplicate_bare_and_root_path.rs:11:5
+   |
+11 |     #[get("/")]
+   |     ^^^^^^^^^^^
+
+error: duplicate route GET /users: already defined by `list`
+  --> tests/ui/duplicate_bare_and_root_path.rs:14:5
+   |
+14 |     #[get("")]
+   |     ^^^^^^^^^^

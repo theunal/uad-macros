@@ -1,0 +1,5 @@
+error: #[authorize(...)] requires #[middleware(auth)] on the handler or its #[controller]: the permission check reads the CurrentUser extension that only auth_middleware inserts.
+  --> tests/ui/authorize_without_auth.rs:10:14
+   |
+10 |     async fn create() {}
+   |              ^^^^^^

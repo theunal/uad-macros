@@ -1,0 +1,39 @@
+error: #[middleware] must be used together with a route macro (#[get], #[post], #[put], #[delete], #[patch], #[head], #[options])
+ --> tests/ui/marker_without_route.rs:4:1
+  |
+4 | #[uad_macros::middleware(auth)]
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: this error originates in the attribute macro `uad_macros::middleware` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: #[authorize] must be used together with a route macro (#[get], #[post], #[put], #[delete], #[patch], #[head], #[options])
+ --> tests/ui/marker_without_route.rs:7:1
+  |
+7 | #[uad_macros::authorize(Permission::UserRead)]
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: this error originates in the attribute macro `uad_macros::authorize` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: #[public] must be used together with a route macro (#[get], #[post], #[put], #[delete], #[patch], #[head], #[options])
+  --> tests/ui/marker_without_route.rs:10:1
+   |
+10 | #[uad_macros::public]
+   | ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the attribute macro `uad_macros::public` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: #[middleware] on a module requires #[controller(...)]
+  --> tests/ui/marker_without_route.rs:13:1
+   |
+13 | #[uad_macros::middleware(auth)]
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the attribute macro `uad_macros::middleware` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: #[public] can only be applied to route handler functions
+  --> tests/ui/marker_without_route.rs:16:1
+   |
+16 | #[uad_macros::public]
+   | ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the attribute macro `uad_macros::public` (in Nightly builds, run with -Z macro-backtrace for more info)
