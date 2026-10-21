@@ -1,5 +1,5 @@
 error: #[public] routes cannot use #[middleware(auth)]: remove one of them
- --> tests/ui/public_with_auth.rs:6:1
+ --> src/tests/ui/public_with_auth.rs:6:1
   |
 6 | #[uad_macros::middleware(auth)]
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,11 +1,11 @@
 error: #[validator] parameter `bdy` is not a parameter of `typo`; available: body, tag
- --> tests/ui/validator_unknown_param.rs:7:43
+ --> src/tests/ui/validator_unknown_param.rs:7:43
   |
 7 | #[uad_macros::validator(NewUserValidator, bdy)]
   |                                           ^^^
 
 error: #[validator] parameter `payload` is not a parameter of `no_params`; `no_params` has no named parameters
-  --> tests/ui/validator_unknown_param.rs:10:43
+  --> src/tests/ui/validator_unknown_param.rs:10:43
    |
 10 | #[uad_macros::validator(NewUserValidator, payload)]
    |                                           ^^^^^^^

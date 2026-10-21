@@ -78,7 +78,7 @@ directly below the owner instead of using a thread-local side channel.
 | `src/router/middleware.rs` | Validates `#[middleware(auth)]` and relocates it below its owner. |
 | `src/router/authorize.rs` | Parses `Permission::Variant` lists and relocates `#[authorize]` below its owner. |
 | `src/validator/mod.rs` | `#[validator(Validator, param)]` expansion and parameter lookup. |
-| `src/tests/` | Route, validator and trybuild UI test sources (see [Tests](#tests)). |
+| `src/tests/` | Route, head, validator and trybuild UI test sources (see [Tests](#tests)). |
 
 ## Macros
 
@@ -358,54 +358,34 @@ The macros reject, among others:
 
 ## Tests
 
-`cargo test -p uad-macros` runs the 8 unit tests in
-`src/router/common.rs`. They pin path normalization/joining, route-shape
-conflict rules, attribute detection and middleware-kind parsing.
+`cargo test` runs every suite; the integration targets are declared in
+`Cargo.toml` (`[[test]]`), so `cargo test --all-targets` and
+`cargo clippy --all-targets` cover them too.
 
-`src/tests/` holds three larger suites:
-
-| File | What it covers |
-|---|---|
-| `src/tests/routes.rs` | Full expansion against a stand-in `AppState`/`RouteRegistrar`: controller prefixes, middleware/authorize propagation, public opt-out, deduplication, cfg-gated duplicates. |
-| `src/tests/validator.rs` | `#[validator]` injection on sync/async functions and destructured parameters. |
-| `src/tests/ui.rs` + `src/tests/ui/*.rs` / `*.stderr` | Trybuild compile-fail snapshots for the diagnostics above. |
-
-These suites are **not currently Cargo test targets**: `Cargo.toml` declares no
-`[[test]]` entries and the crate has no `[dev-dependencies]` (the suites use
-`axum`, `tokio`, `tower`, `inventory` and `trybuild`). To run them, add the
-dev-dependencies and explicit targets, for example:
-
-```toml
-[dev-dependencies]
-axum = "0.8.9"
-tokio = { version = "1.53.1", features = ["full"] }
-tower = "0.5.3"
-inventory = "0.3.24"
-trybuild = "1"
-
-[[test]]
-name = "routes"
-path = "src/tests/routes.rs"
-
-[[test]]
-name = "validator"
-path = "src/tests/validator.rs"
-
-[[test]]
-name = "ui"
-path = "src/tests/ui.rs"
-```
+| Suite | Tests | What it covers |
+|---|---|---|
+| `src/router/common.rs` (unit) | 8 | Path normalization/joining, route-shape conflict rules, attribute detection and middleware-kind parsing. |
+| `src/tests/routes.rs` | 20 | Full expansion against a stand-in `AppState`/`RouteRegistrar`: controller prefixes, middleware/authorize propagation, public opt-out, deduplication, cfg-gated duplicates, GET/POST/PUT/DELETE/PATCH/OPTIONS routing. |
+| `src/tests/head.rs` | 2 | `#[head]` routes answer `HEAD` requests and carry their middleware/permissions. |
+| `src/tests/validator.rs` | 4 | `#[validator]` injection on sync/async functions and destructured parameters, including a trailing comma. |
+| `src/tests/ui.rs` | 13 fixtures | Trybuild compile-fail snapshots for the diagnostics above. |
 
 The `include!("support/app.rs")` resolves relative to the test source file, so
-keep `src/tests/support/app.rs` next to `routes.rs`/`validator.rs`; the included
-items become crate-root items in the test binary, which is what the generated
-`crate::routing::…` paths expect.
+keep `src/tests/support/app.rs` next to `routes.rs`/`head.rs`/`validator.rs`; the
+included items become crate-root items in the test binary, which is what the
+generated `crate::routing::…` paths expect.
 
-One further caveat for the UI suite: `src/tests/ui.rs` calls
-`compile_fail("tests/ui/*.rs")`, a glob resolved from the crate root, while the
-fixtures and `.stderr` snapshots currently sit in `src/tests/ui/`. Before wiring
-that target, move the directory to `tests/ui/` (or change the glob) and
-regenerate snapshots with `TRYBUILD=overwrite cargo test --test ui`.
+`src/tests/ui.rs` compiles every fixture in `src/tests/ui/*.rs` and compares the
+compiler output with the adjacent `.stderr` file. After an intentional change to
+a diagnostic, regenerate the snapshots with:
+
+```sh
+TRYBUILD=overwrite cargo test --test ui
+```
+
+Compiler diagnostics are toolchain-specific, so CI runs the UI target on the
+pinned Rust 1.99.1 toolchain it was generated with, while the other suites run on
+stable. A release requires all four suites to pass.
 
 ## Releasing
 

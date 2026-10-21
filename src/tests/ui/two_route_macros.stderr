@@ -1,5 +1,5 @@
 error: `items` already has a route macro (#[get]); a handler can only have one
- --> tests/ui/two_route_macros.rs:5:3
+ --> src/tests/ui/two_route_macros.rs:5:3
   |
 5 | #[uad_macros::post("/items")]
   |   ^^^^^^^^^^^^^^^^

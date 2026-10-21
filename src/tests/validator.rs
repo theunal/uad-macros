@@ -37,6 +37,7 @@ fn create_user(payload: NewUser) -> Outcome {
     Outcome::Created(payload.name)
 }
 
+#[rustfmt::skip]
 #[uad_macros::validator(NewUserValidator, payload,)]
 async fn create_user_async(payload: NewUser) -> Outcome {
     Outcome::Created(payload.name)

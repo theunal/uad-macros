@@ -1,17 +1,17 @@
 error: duplicate route GET /users/{id}: already defined by `show`
-  --> tests/ui/duplicate_path.rs:11:5
+  --> src/tests/ui/duplicate_path.rs:11:5
    |
 11 |     #[get("{id}")]
    |     ^^^^^^^^^^^^^^
 
 error: duplicate route GET /users/:user_id: already defined by `show`
-  --> tests/ui/duplicate_path.rs:15:5
+  --> src/tests/ui/duplicate_path.rs:15:5
    |
 15 |     #[get("/:user_id")]
    |     ^^^^^^^^^^^^^^^^^^^
 
 error: duplicate route GET /users/{user_id}: already defined by `show`
-  --> tests/ui/duplicate_path.rs:18:5
+  --> src/tests/ui/duplicate_path.rs:18:5
    |
 18 |     #[get("/{user_id}")]
    |     ^^^^^^^^^^^^^^^^^^^^

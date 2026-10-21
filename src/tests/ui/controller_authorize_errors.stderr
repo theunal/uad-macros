@@ -1,23 +1,23 @@
 error: controller-level #[authorize(...)] requires controller-level #[middleware(auth)]: the permission check reads the CurrentUser extension that only auth_middleware inserts
- --> tests/ui/controller_authorize_errors.rs:4:1
+ --> src/tests/ui/controller_authorize_errors.rs:4:1
   |
 4 | #[uad_macros::authorize(Permission::AdminAccess)]
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: authorize expects one or more Permission variants: #[authorize(Permission::ServerRead)]
-  --> tests/ui/controller_authorize_errors.rs:14:1
+  --> src/tests/ui/controller_authorize_errors.rs:14:1
    |
 14 | #[uad_macros::authorize()]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: authorize expects Permission::Variant paths, e.g. #[authorize(Permission::ServerRead)]
-  --> tests/ui/controller_authorize_errors.rs:24:25
+  --> src/tests/ui/controller_authorize_errors.rs:24:25
    |
 24 | #[uad_macros::authorize(Role::Admin)]
    |                         ^^^^^^^^^^^
 
 error: #[authorize] on a module requires #[controller(...)]
-  --> tests/ui/controller_authorize_errors.rs:32:1
+  --> src/tests/ui/controller_authorize_errors.rs:32:1
    |
 32 | #[uad_macros::authorize(Permission::AdminAccess)]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

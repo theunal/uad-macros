@@ -204,7 +204,9 @@ async fn resolve(reg: &RouteRegistrar) -> (String, Method) {
             .unwrap();
         let res = single_route_app(reg).oneshot(req).await.unwrap();
         if res.status() == StatusCode::OK {
-            let bytes = axum::body::to_bytes(res.into_body(), usize::MAX).await.unwrap();
+            let bytes = axum::body::to_bytes(res.into_body(), usize::MAX)
+                .await
+                .unwrap();
             return (String::from_utf8(bytes.to_vec()).unwrap(), method);
         }
     }
@@ -310,7 +312,11 @@ async fn controller_without_prefix_and_bare_route_outside_controller_map_to_root
 #[tokio::test]
 async fn controller_middleware_is_applied_to_every_route() {
     for handler in ["users:list", "users:show", "users:me"] {
-        assert_eq!(route(handler).await.middlewares, [MiddlewareKind::Auth], "{handler}");
+        assert_eq!(
+            route(handler).await.middlewares,
+            [MiddlewareKind::Auth],
+            "{handler}"
+        );
     }
 }
 
@@ -322,7 +328,10 @@ async fn explicit_and_controller_middleware_are_deduplicated() {
 #[tokio::test]
 async fn authorize_adds_permissions_and_authorize_middleware() {
     let r = route("users:create").await;
-    assert_eq!(r.middlewares, [MiddlewareKind::Auth, MiddlewareKind::Authorize]);
+    assert_eq!(
+        r.middlewares,
+        [MiddlewareKind::Auth, MiddlewareKind::Authorize]
+    );
     assert_eq!(r.permissions, [Permission::UserWrite]);
 }
 
@@ -330,7 +339,10 @@ async fn authorize_adds_permissions_and_authorize_middleware() {
 async fn authorize_above_route_macro_works_and_dedupes_permissions() {
     let r = route("users:remove").await;
     assert_eq!(r.method, Method::DELETE);
-    assert_eq!(r.middlewares, [MiddlewareKind::Auth, MiddlewareKind::Authorize]);
+    assert_eq!(
+        r.middlewares,
+        [MiddlewareKind::Auth, MiddlewareKind::Authorize]
+    );
     assert_eq!(r.permissions, [Permission::UserRead]);
 }
 
@@ -349,7 +361,10 @@ async fn public_below_route_macro_is_recognized() {
 
 #[tokio::test]
 async fn route_level_middleware_without_controller_middleware() {
-    assert_eq!(route("posts:show").await.middlewares, [MiddlewareKind::Auth]);
+    assert_eq!(
+        route("posts:show").await.middlewares,
+        [MiddlewareKind::Auth]
+    );
     assert!(route("posts:list").await.middlewares.is_empty());
     assert!(route("standalone").await.middlewares.is_empty());
 }
@@ -365,7 +380,10 @@ async fn non_public_routes_default_to_not_public() {
 async fn controller_authorize_is_applied_to_every_route() {
     let r = route("admin:dashboard").await;
     assert_eq!((r.method, r.path), (Method::GET, "/admin"));
-    assert_eq!(r.middlewares, [MiddlewareKind::Auth, MiddlewareKind::Authorize]);
+    assert_eq!(
+        r.middlewares,
+        [MiddlewareKind::Auth, MiddlewareKind::Authorize]
+    );
     assert_eq!(r.permissions, [Permission::AdminAccess]);
 }
 
@@ -373,14 +391,23 @@ async fn controller_authorize_is_applied_to_every_route() {
 async fn controller_and_route_permissions_are_merged_in_order() {
     let r = route("admin:create_user").await;
     assert_eq!((r.method, r.path), (Method::POST, "/admin/users"));
-    assert_eq!(r.permissions, [Permission::AdminAccess, Permission::UserWrite]);
+    assert_eq!(
+        r.permissions,
+        [Permission::AdminAccess, Permission::UserWrite]
+    );
 }
 
 #[tokio::test]
 async fn repeated_controller_permission_is_deduplicated() {
     let r = route("admin:list_users").await;
-    assert_eq!(r.permissions, [Permission::AdminAccess, Permission::UserRead]);
-    assert_eq!(r.middlewares, [MiddlewareKind::Auth, MiddlewareKind::Authorize]);
+    assert_eq!(
+        r.permissions,
+        [Permission::AdminAccess, Permission::UserRead]
+    );
+    assert_eq!(
+        r.middlewares,
+        [MiddlewareKind::Auth, MiddlewareKind::Authorize]
+    );
 }
 
 #[tokio::test]
@@ -395,7 +422,10 @@ async fn public_routes_opt_out_of_controller_authorize() {
 async fn controller_attributes_above_controller_macro_are_applied() {
     let r = route("reports:index").await;
     assert_eq!((r.method, r.path), (Method::GET, "/reports"));
-    assert_eq!(r.middlewares, [MiddlewareKind::Auth, MiddlewareKind::Authorize]);
+    assert_eq!(
+        r.middlewares,
+        [MiddlewareKind::Auth, MiddlewareKind::Authorize]
+    );
     assert_eq!(r.permissions, [Permission::UserRead]);
 }
 

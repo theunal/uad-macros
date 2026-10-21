@@ -44,7 +44,9 @@ jobs:
         run: cargo clippy --all-targets -- -D warnings
 
       - name: Run tests
-        run: cargo test --lib
+        # The UI snapshots are compiler-version specific and run in the pinned
+        # `ui` job instead of on stable.
+        run: cargo test --lib --test routes --test head --test validator
 
   msrv:
     name: Check MSRV (1.99.1)
@@ -60,12 +62,30 @@ jobs:
         uses: Swatinem/rust-cache@v2.9.3
 
       - name: Check
-        run: cargo check --lib
+        run: cargo check --all-targets
+
+  ui:
+    name: UI snapshots (1.99.1)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      # The .stderr snapshots are tied to compiler diagnostics, so this job is
+      # pinned to the version they were generated with.
+      - name: Install Rust 1.99.1
+        uses: dtolnay/rust-toolchain@1.99.1
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2.9.3
+
+      - name: Run trybuild snapshots
+        run: cargo test --test ui
 
   verify-release:
     name: Verify release
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [test, msrv]
+    needs: [test, msrv, ui]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

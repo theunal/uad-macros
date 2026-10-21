@@ -18,3 +18,26 @@ proc-macro = true
 syn = { version = "3.0.9", features = ["full"] }
 quote = "1.0.47"
 proc-macro2 = "1.0.107"
+
+[dev-dependencies]
+axum = "0.8.9"
+inventory = "0.3.25"
+tokio = { version = "1.54.0", features = ["macros", "rt-multi-thread"] }
+tower = "0.5.3"
+trybuild = "1.0.122"
+
+[[test]]
+name = "routes"
+path = "src/tests/routes.rs"
+
+[[test]]
+name = "validator"
+path = "src/tests/validator.rs"
+
+[[test]]
+name = "ui"
+path = "src/tests/ui.rs"
+
+[[test]]
+name = "head"
+path = "src/tests/head.rs"

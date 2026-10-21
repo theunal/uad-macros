@@ -1,41 +1,41 @@
 error: route macro expects a string literal path, e.g. #[get("/users")], or no argument: #[get]
- --> tests/ui/invalid_arguments.rs:4:19
+ --> src/tests/ui/invalid_arguments.rs:4:19
   |
 4 | #[uad_macros::get(42)]
   |                   ^^
 
 error: Unknown middleware: 'logging'. Supported: auth
- --> tests/ui/invalid_arguments.rs:8:26
+ --> src/tests/ui/invalid_arguments.rs:8:26
   |
 8 | #[uad_macros::middleware(logging)]
   |                          ^^^^^^^
 
 error: authorize expects Permission::Variant paths, e.g. #[authorize(Permission::ServerRead)]
-  --> tests/ui/invalid_arguments.rs:13:25
+  --> src/tests/ui/invalid_arguments.rs:13:25
    |
 13 | #[uad_macros::authorize(UserRead)]
    |                         ^^^^^^^^
 
 error: authorize expects one or more Permission variants: #[authorize(Permission::ServerRead)]
-  --> tests/ui/invalid_arguments.rs:18:1
+  --> src/tests/ui/invalid_arguments.rs:18:1
    |
 18 | #[uad_macros::authorize()]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: #[public] takes no arguments
-  --> tests/ui/invalid_arguments.rs:22:1
+  --> src/tests/ui/invalid_arguments.rs:22:1
    |
 22 | #[uad_macros::public(yes)]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: controller expects a string literal prefix, e.g. #[controller("/users")]
-  --> tests/ui/invalid_arguments.rs:25:26
+  --> src/tests/ui/invalid_arguments.rs:25:26
    |
 25 | #[uad_macros::controller(users)]
    |                          ^^^^^
 
 error: expected #[validator(ValidatorPath, param_name)]: missing comma
-  --> tests/ui/invalid_arguments.rs:28:1
+  --> src/tests/ui/invalid_arguments.rs:28:1
    |
 28 | #[uad_macros::validator(SomeValidator)]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -43,7 +43,7 @@ error: expected #[validator(ValidatorPath, param_name)]: missing comma
    = note: this error originates in the attribute macro `uad_macros::validator` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 error: expected #[validator(ValidatorPath, param_name)]: unexpected tokens
-  --> tests/ui/invalid_arguments.rs:31:49
+  --> src/tests/ui/invalid_arguments.rs:31:49
    |
 31 | #[uad_macros::validator(SomeValidator, payload, extra)]
    |                                                 ^^^^^
