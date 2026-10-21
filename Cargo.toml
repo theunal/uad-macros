@@ -2,7 +2,7 @@
 name = "uad-macros"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.99.1"
 description = "Procedural macros for uad-server: route registration, controllers, middleware, authorization and request validation"
 repository = "https://github.com/theunal/uad-macros"
 documentation = "https://docs.rs/uad-macros"

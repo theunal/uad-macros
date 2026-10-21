@@ -38,14 +38,14 @@ jobs:
         run: cargo test --lib
 
   msrv:
-    name: Check MSRV (1.88.0)
+    name: Check MSRV (1.99.1)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
-      - name: Install Rust 1.88.0
-        uses: dtolnay/rust-toolchain@1.88.0
+      - name: Install Rust 1.99.1
+        uses: dtolnay/rust-toolchain@1.99.1
 
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2.9.3
