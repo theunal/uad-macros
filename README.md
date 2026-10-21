@@ -428,7 +428,7 @@ required reviewers or a deployment branch rule can be added there.
 
 If the tag and the `Cargo.toml` version differ, or any check fails, the crate is
 not published. `ci.yml` runs the same checks on pushes to `main` and on pull
-requests, plus an MSRV check against Rust 1.85.0.
+requests, plus an MSRV check against Rust 1.88.0.
 
 ## Extending the crate
 
